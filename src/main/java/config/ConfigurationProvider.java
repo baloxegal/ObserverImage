@@ -17,6 +17,5 @@ public class ConfigurationProvider {
 	public List <String> getExtensions() {
 		List <String> extensions = new ArrayList<>(Arrays.asList(".jpg", ".jpeg", ".png"));
 		return extensions;
-	}
-	
+	}	
 }
