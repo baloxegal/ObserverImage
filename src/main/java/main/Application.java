@@ -1,22 +1,18 @@
 package main;
 
 import behavior.DirectoryObserver;
-import config.ConfigurationProvider;
-import processors.ImageProcessor;
+import java.io.IOException;
 
 public class Application {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		System.out.println("STARTING");
+		System.out.println("STARTING!!!");
 		
-		DirectoryObserver dirObserver = new DirectoryObserver(new ConfigurationProvider());
+		DirectoryObserver dirObserver = new DirectoryObserver("image");
 		dirObserver.observe();
-		
-		ImageProcessor ip = new ImageProcessor(new ConfigurationProvider());
-		ip.transform(f);
-		
-		System.out.println("FINISHING");
+						
+		System.out.println("FINISHING!!!");
 
 	}
 

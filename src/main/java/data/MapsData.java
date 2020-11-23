@@ -7,7 +7,7 @@ import config.ConfigurationProvider;
 
 public class MapsData {
 	
-	private ConfigurationProvider cp = new ConfigurationProvider();
+	private ConfigurationProvider cp;
 	
 	public MapsData(ConfigurationProvider cp) {
 		this.cp = cp;
