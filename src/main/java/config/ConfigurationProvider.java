@@ -12,13 +12,16 @@ public class ConfigurationProvider {
 		this.typeFile = typFile;
 	}
 	
+	public String getTypeFile() {
+		return typeFile;
+	}
+	
 	public String getPath(String key) {
 		if(typeFile.equals("image")) {		
 			if(key.equals("path.original"))
 				return "images/original/";
 			else if(key.equals("path.refactor"))
-				return "images/refactor/";
-			
+				return "images/refactor/";			
 		}
 		else if(typeFile.equals("music")) {		
 			if(key.equals("path.original"))
@@ -26,15 +29,15 @@ public class ConfigurationProvider {
 			else if(key.equals("path.refactor"))
 				return "music/refactor/";
 		}
-		return key;
+		return null;
 	}
 	
 	public List <String> getExtensions() {
 		if(typeFile.equals("image")){
-			return new ArrayList<>(Arrays.asList(".jpg", ".jpeg", ".png"));
+			return new ArrayList<>(Arrays.asList("jpeg", "jpg", "png"));
 		}
 		else if(typeFile.equals("music")){
-			return new ArrayList<>(Arrays.asList(".mp3", ".wav"));
+			return new ArrayList<>(Arrays.asList("mp3", "wav"));
 		}
 		return null;
 	}	

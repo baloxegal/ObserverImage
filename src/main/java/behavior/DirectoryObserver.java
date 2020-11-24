@@ -1,61 +1,43 @@
 package behavior;
 
 import java.io.File;
-import java.util.Arrays;
-import java.io.IOException;
 import data.MapsData;
 import data.Comparators;
-import processors.ImageProcessor;
 import config.ConfigurationProvider;
+import java.io.IOException;
 
-public class DirectoryObserver {
+public class DirectoryObserver implements Runnable {
 	
 	private ConfigurationProvider cp;
+	private MapsData md;
+	private Comparators c;
 	
 	public DirectoryObserver(String typeFile) {
 		this.cp = new ConfigurationProvider(typeFile);
+		md = new MapsData(cp);
+		c = new Comparators(md);
 	}
 	
 	public void observe() throws IOException, InterruptedException {
-		MapsData md = new MapsData(cp);
-		Comparators c = new Comparators(md, new ImageProcessor(cp));
-		File[] refactorImages = md.getMapData("path.refactor");
-		File[] lastImages = c.preCompare();
-				
-		while(true) {
-			
-			File[] currentImages = md.getMapData("path.original");
-						
-			if(currentImages.length != 0)
-				Arrays.sort(currentImages);
-								
-			if(!Arrays.equals(currentImages, lastImages)) {								
-				System.out.println("Directory - \"" + currentImages[0].getParent() + "\" has been changed");
-					
-				if(currentImages.length == 0) {					
-					System.out.println("Directory - \"" + currentImages[0].getParent() + "\" is empty now, all files have been deleted");
-					for(var f : refactorImages)
-						f.delete();
-					refactorImages = lastImages = currentImages;					
-					continue;
-				}
-					
-				System.out.println("FILES LIST:");
-					
-				for(var f : currentImages) {
-					System.out.println(">>> " + f);
-				}
-				
-				c.compare(currentImages, lastImages, refactorImages);
-												
-				lastImages = currentImages;				
-			}
-			
-			refactorImages = md.getMapData("path.refactor");	
-			
-			c.compareRefact(currentImages, refactorImages);
-			
-			Thread.sleep(10000);			
+		File[] lastImages = c.preCompare(md.getMapData("path.refactor"));				
+		while(true) {			
+			File[] currentImages = md.getMapData("path.original");			
+			c.compare(currentImages, lastImages);
+			lastImages = currentImages;
+			c.compareRefact(currentImages, md.getMapData("path.refactor"));
+			Thread.yield();
+			Thread.sleep(500);			
+		}		
+	}
+
+	@Override
+	public void run() {
+		try {
+			this.observe();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}		
 	}
 }
