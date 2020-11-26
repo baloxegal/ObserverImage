@@ -1,9 +1,9 @@
 package main;
 
-import behavior.DirectoryObserver;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import behavior.DirectoryObserver;
+import java.io.IOException;
 
 public class Application {
 
@@ -16,7 +16,8 @@ public class Application {
 //		observer_2.start();
 		
 		ExecutorService executor = Executors.newCachedThreadPool();		
-		executor.execute(new DirectoryObserver("image"));
-		executor.execute(new DirectoryObserver("music"));
+		for(var typeFile : new DirectoryObserver(null).getConfigurationProvider().getTypeFileList()) {
+			executor.execute(new DirectoryObserver(typeFile));			
+		}	
 	}
 }

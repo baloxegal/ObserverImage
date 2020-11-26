@@ -29,12 +29,12 @@ public class MapsData {
 			System.out.println("Directory - \"" + cp.getPath(key) + "\" has been created");
 			f.mkdirs();
 		}
-		File[] images = null;
+		File[] objects = null;
 		if(cp.getPath(key).contains("refactor")) {
-			images = f.listFiles();		
+			objects = f.listFiles();		
 		}
 		else {
-			images = f.listFiles(new FileFilter() {			
+			objects = f.listFiles(new FileFilter() {			
 				@Override
 				public boolean accept(File pathname) {
 					if(pathname.isFile() && cp.getExtensions().contains(pathname.getName().substring(pathname.getName().lastIndexOf(".") + 1).toLowerCase()))
@@ -42,8 +42,8 @@ public class MapsData {
 					return false;
 				}
 			});}		
-		if(images.length != 0)
-			Arrays.sort(images);		
-		return images;		
+		if(objects.length != 0)
+			Arrays.sort(objects);		
+		return objects;		
 	}
 }

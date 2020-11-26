@@ -8,12 +8,17 @@ public class ConfigurationProvider {
 	
 	private String typeFile;
 	
-	public ConfigurationProvider(String typFile) {
-		this.typeFile = typFile;
+	public ConfigurationProvider(String typeFile) {
+		if(this.getTypeFileList().contains(typeFile))	
+			this.typeFile = typeFile;
 	}
 	
 	public String getTypeFile() {
 		return typeFile;
+	}
+	
+	public List<String> getTypeFileList() {
+		return new ArrayList<>(Arrays.asList("image", "music"));		
 	}
 	
 	public String getPath(String key) {

@@ -13,18 +13,22 @@ public class DirectoryObserver implements Runnable {
 	private Comparators c;
 	
 	public DirectoryObserver(String typeFile) {
-		this.cp = new ConfigurationProvider(typeFile);
+		cp = new ConfigurationProvider(typeFile);
 		md = new MapsData(cp);
 		c = new Comparators(md);
 	}
 	
+	public ConfigurationProvider getConfigurationProvider(){
+		return cp;
+	}
+	
 	public void observe() throws IOException, InterruptedException {
-		File[] lastImages = c.preCompare(md.getMapData("path.refactor"));				
+		File[] lastObjects = c.preCompare(md.getMapData("path.refactor"));				
 		while(true) {			
-			File[] currentImages = md.getMapData("path.original");			
-			c.compare(currentImages, lastImages);
-			lastImages = currentImages;
-			c.compareRefact(currentImages, md.getMapData("path.refactor"));
+			File[] currentObjects = md.getMapData("path.original");			
+			c.compare(currentObjects, lastObjects);
+			lastObjects = currentObjects;
+			c.compareRefact(currentObjects, md.getMapData("path.refactor"));
 			Thread.yield();
 			Thread.sleep(500);			
 		}		
